@@ -8,5 +8,5 @@ export interface User{
 }
 
 export interface UserDocument extends User,Document {
-    validatePassword(param1: String): String;
+    validatePassword(param1: String): Promise<boolean>;
 }
