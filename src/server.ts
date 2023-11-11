@@ -5,11 +5,13 @@ import  mongoose from "mongoose";
 import * as usersController from "./controller/users";
 import bodyParser from "body-parser";
 import authMiddleWare from "../middleware/auth";
+import cors from "cors";
 
 const app = express();
 const httpSever = createServer(app);
 const io = new Server(httpSever);
 
+app.use(cors());
 app.use(bodyParser.json()); //to read API body as Json object in express
 app.use(bodyParser.urlencoded({extended:true})); //doesn the same thing as above but for urlencoded type of data
 
