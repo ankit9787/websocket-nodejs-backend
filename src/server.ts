@@ -3,6 +3,7 @@ import {createServer} from "http";
 import {Server} from "socket.io";
 import  mongoose from "mongoose";
 import * as usersController from "./controller/users";
+import * as boardsController from "./controller/boards";
 import bodyParser from "body-parser";
 import authMiddleWare from "../middleware/auth";
 import cors from "cors";
@@ -25,6 +26,8 @@ app.post("/api/users", usersController.register);
 app.post("/api/users/login", usersController.login);
 
 app.get("/api/user", authMiddleWare, usersController.currentUser);
+
+app.get("/api/boards", authMiddleWare, boardsController.getBoards);
 
 io.on('connection', ()=>{
     console.log("connected");
