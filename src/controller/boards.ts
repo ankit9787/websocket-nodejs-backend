@@ -41,3 +41,19 @@ export const createBoard = async (
     next(err);
   }
 };
+
+export const getBoard = async (
+  req: ExpressInterfaceRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (!req.user) {
+      return res.sendStatus(401);
+    }
+    const boards = await BoardModel.findById(req.params.boardId);
+    res.send(boards);
+  } catch (err) {
+    next(err);
+  }
+};
