@@ -12,6 +12,7 @@ import cors from "cors";
 import { SocketEventsEnum } from "./types/socketEvents.enum";
 import jwt from "jsonwebtoken";
 import user from './models/user';
+import * as columnsController from "./controller/columns";
 
 const app = express();
 const httpSever = createServer(app);
@@ -48,6 +49,12 @@ app.post("/api/boards", authMiddleWare, boardsController.createBoard);
 
 app.get("/api/boards/:boardId", authMiddleWare, boardsController.getBoard);
 
+app.get(
+    "/api/boards/:boardId/columns",
+    authMiddleWare,
+    columnsController.getColumns
+  );
+
 
 io.use(async (socket: Socket, next) => {
     try {
@@ -75,7 +82,10 @@ io.use(async (socket: Socket, next) => {
     socket.on(SocketEventsEnum.boardsLeave, (data) => {
         console.log('leave');
         boardsController.leaveBoard(io, socket, data);
-    })
+    });
+    socket.on(SocketEventsEnum.columnsCreate, data => {
+        columnsController.createColumn(io, socket, data)
+      })
     
 })
 
